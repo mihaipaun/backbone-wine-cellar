@@ -134,7 +134,12 @@ window.WineView = Backbone.View.extend({
       description: $("#description").val()
     });
     if (this.model.isNew()) {
-      app.wineList.create(this.model);
+      var self = this;
+      app.wineList.create(this.model, {
+        success: function () {
+          app.navigate("wines/" + self.model.id, false);
+        }
+      });
     } else {
       this.model.save();
     }
@@ -179,10 +184,7 @@ window.HeaderView = Backbone.View.extend({
   },
 
   newWine: function (event) {
-    if (app.wineView)
-      app.wineView.close();
-    app.wineView = new WineView({model: new Wine()});
-    $("#content").html(app.wineView.render().el);
+    app.navigate("wines/new", true);
     return false;
   }
 });
@@ -194,20 +196,28 @@ window.HeaderView = Backbone.View.extend({
     The “wines/:id” route displays the details of a specific wine in the wine form.
 */
 var AppRouter = Backbone.Router.extend({
+
   routes: {
     "": "list",
+    "wines/new": "newWine",
     "wines/:id": "wineDetails"
   },
 
   initialize: function () {
-    this.wineList = new WineCollection();
     $("#header").html(new HeaderView().render().el);
   },
 
   list: function () {
-    this.wineListView = new WineListView({model: this.wineList});
-    this.wineList.fetch();
-    $("#sidebar").html(this.wineListView.render().el);
+    this.wineList = new WineCollection();
+    var self = this;
+    this.wineList.fetch({
+      success: function () {
+        self.wineListView = new WineListView({model: self.wineList});
+        $("#sidebar").html(self.wineListView.render().el);
+        if (self.requestedId)
+          self.wineDetails(self.requestedId);
+      }
+    });
   },
 
   wineDetails: function (id) {
@@ -221,6 +231,13 @@ var AppRouter = Backbone.Router.extend({
       this.requestedId = id;
       this.list();
     }
+  },
+
+  newWine: function () {
+    if (app.wineView)
+      app.wineView.close();
+    app.wineView = new WineView({model: new Wine()});
+    $("#content").html(app.wineView.render().el);
   }
 
 });
