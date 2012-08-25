@@ -5,7 +5,7 @@ window.Wine = Backbone.Model.extend({
 
 window.WineCollection = Backbone.Collection.extend({
   model: Wine, // "model" indicates the nature of the collection
-  url: "../api/wines" // "url" provides the endpoint for the RESTful API
+  url: "api/wines" // "url" provides the endpoint for the RESTful API
 });
 
 // Views
