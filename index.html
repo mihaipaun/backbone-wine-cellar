@@ -15,6 +15,11 @@
     </div>
 
     <!-- Templates -->
+    <script type="text/template" id="tpl-header">
+      <span class="title">Backbone Wine Cellar</span>
+      <button class="new">New Wine</button>
+    </script>
+
     <script type="text/template" id="tpl-wine-list-item">
       <a href='#wines/<%= id %>'><%= name %></a>
     </script>
@@ -33,7 +38,10 @@
         <input type="text" id="region" name="region"  value="<%= region %>"/>
         <label>Year:</label>
         <input type="text" id="year" name="year"  value="<%= year %>"/>
+        <button class="save">Save</button>
+        <button class="delete">Delete</button>
       </div>
+
       <div class="form-right-col">
         <img height="300" src="pics/<%= picture %>"/>
         <label>Notes:</label>
