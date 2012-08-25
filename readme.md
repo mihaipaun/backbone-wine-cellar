@@ -1,0 +1,2 @@
+In which I explore writing a Backbone.js application integrated with a RESTful service.  
+Inspired by the three parts [tutorial](http://coenraets.org/blog/2011/12/backbone-js-wine-cellar-tutorial-part-1-getting-started/) by [Christophe Coenraets](http://coenraets.org/blog/bio/).
